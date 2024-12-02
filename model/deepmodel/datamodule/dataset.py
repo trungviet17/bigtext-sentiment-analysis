@@ -2,6 +2,7 @@ from transformers import BertTokenizer
 from torch.utils.data import Dataset
 import pandas as pd
 import torch 
+import re 
 
 class TwitterDataset(Dataset): 
 
@@ -34,6 +35,20 @@ class TwitterDataset(Dataset):
     def _data_preprocess(self):
         self.dataframe.columns = ['ID', 'Entity', 'Sentiment', 'Text']
         self.dataframe.dropna(inplace=True)
+
+        def clean_text(text: str): 
+            tmp = text.lower()
+            tmp = re.sub("@[A-Za-z0-9_]+","", tmp)
+            tmp = re.sub("#[A-Za-z0-9_]+","", tmp)
+            tmp = re.sub(r"http\S+", "", tmp)
+            tmp = re.sub(r"www.\S+", "", tmp)
+            tmp = re.sub("[0-9]","", tmp)
+            return tmp
+        
+        self.dataframe['Text'] = self.dataframe['Text'].apply(clean_text)
+
+
+
 
 
 if __name__ == '__main__':

@@ -1,13 +1,14 @@
-from transformers import BertTokenizer
+from tokenizer import TwitterTokenizer
 from torch.utils.data import Dataset
 import pandas as pd
 import torch 
-import re 
+
 
 class TwitterDataset(Dataset): 
 
-    def __init__(self, data_dir: str, tokenizer: BertTokenizer, input_max_len: int=25):
+    def __init__(self, data_dir: str, tokenizer: TwitterTokenizer, input_max_len: int=25):
         super().__init__()
+        
         self.dataframe = pd.read_csv(data_dir)
         self.tokenizer = tokenizer
         self._data_preprocess()
@@ -25,37 +26,27 @@ class TwitterDataset(Dataset):
     def __getitem__(self, idx):
         text, sentiment = self.dataframe.loc[idx, 'Text'], self.dataframe.loc[idx, 'Sentiment']
 
-        source = self.tokenizer.batch_encode_plus([text], max_length=self.input_max_len, pad_to_max_length=True, return_tensors='pt', truncation=True)
+        source = self.tokenizer.encode(text, self.input_max_len)
 
         target = self.sentiment2idx[sentiment]
 
-        return torch.tensor(source['input_ids']).squeeze(), torch.tensor(target)
+        return torch.tensor(source, dtype = torch.long).squeeze(), torch.tensor(target, dtype = torch.long)
 
 
     def _data_preprocess(self):
         self.dataframe.columns = ['ID', 'Entity', 'Sentiment', 'Text']
         self.dataframe.dropna(inplace=True)
-
-        def clean_text(text: str): 
-            tmp = text.lower()
-            tmp = re.sub("@[A-Za-z0-9_]+","", tmp)
-            tmp = re.sub("#[A-Za-z0-9_]+","", tmp)
-            tmp = re.sub(r"http\S+", "", tmp)
-            tmp = re.sub(r"www.\S+", "", tmp)
-            tmp = re.sub("[0-9]","", tmp)
-            return tmp
-        
-        self.dataframe['Text'] = self.dataframe['Text'].apply(clean_text)
+        self.dataframe = self.dataframe.reset_index(drop=True)
 
 
 
 
-
-if __name__ == '__main__':
+if __name__ == '__main__': 
 
     def test(): 
-        pass 
+        tokenizer = TwitterTokenizer('data/train.csv', 'data/test.csv', 2)
+        dataset = TwitterDataset('data/train.csv', tokenizer)
+        print(dataset[0])
 
+    test()
 
-
-    pass

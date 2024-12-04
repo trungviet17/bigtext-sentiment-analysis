@@ -26,7 +26,7 @@ class LSTMConfig:
 
 class TwitterSentimentModel(pl.LightningModule): 
 
-    def __init__(self, model,  tokenizer: BertTokenizer, lr: float=1e-3, ):
+    def __init__(self, model,  tokenizer: BertTokenizer, lr: float=1e-3):
         super().__init__()
 
         self.model = model 

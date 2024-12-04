@@ -1,4 +1,4 @@
-from transformers import T5Tokenizer
+from tokenizer import TwitterTokenizer
 from torch.utils.data import DataLoader 
 import lightning as pl
 from dataset import TwitterDataset
@@ -6,7 +6,7 @@ from dataset import TwitterDataset
 
 class TwitterDatamodule(pl.LightningDataModule): 
 
-    def __init__(self, train_dir: str, valid_dir: str, tokenizer: T5Tokenizer, batch_size: int=32, input_max_len: int=25):
+    def __init__(self, train_dir: str, valid_dir: str, tokenizer: TwitterTokenizer, batch_size: int=32, input_max_len: int=25):
         super().__init__()
 
         self.train_dir = train_dir

@@ -2,7 +2,7 @@ from tokenizer import TwitterTokenizer
 from torch.utils.data import Dataset
 import pandas as pd
 import torch 
-
+import re 
 
 class TwitterDataset(Dataset): 
 
@@ -37,6 +37,8 @@ class TwitterDataset(Dataset):
         self.dataframe.columns = ['ID', 'Entity', 'Sentiment', 'Text']
         self.dataframe.dropna(inplace=True)
         self.dataframe = self.dataframe.reset_index(drop=True)
+
+
 
 
 

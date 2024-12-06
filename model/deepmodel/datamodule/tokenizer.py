@@ -4,9 +4,21 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.probability import FreqDist
 import pandas as pd 
+from dataclasses import dataclass
+
 
 nltk.download('punkt')
 nltk.download('stopwords')
+
+@dataclass 
+class TwitterTokenizerConfig:
+    train_dir: str = 'data/train.csv'
+    val_dir: str = 'data/val.csv'
+    min_freq: int = 2
+
+
+
+
 
 class TwitterTokenizer: 
     def __init__(self, train_dir: str, val_dir: str, min_freq: int = 2):

@@ -4,9 +4,10 @@ from keras._tf_keras.keras.preprocessing.sequence import pad_sequences
 from keras._tf_keras.keras.preprocessing.text import Tokenizer
 import re
 from sklearn.preprocessing import LabelEncoder
+import pickle
 
 class SentimentPredictorONNX:
-    def __init__(self, model_path, tokenizer, label_encoder, max_len=50):
+    def __init__(self, model_path: str, tokenizer: Tokenizer, label_encoder: LabelEncoder, max_len=50):
 
         self.session = onnxruntime.InferenceSession(model_path)
         self.tokenizer = tokenizer
@@ -41,11 +42,15 @@ class SentimentPredictorONNX:
 if __name__ == '__main__': 
 
 
-    label_encoder = LabelEncoder()
-    tokenizer = Tokenizer(num_words=10000, oov_token='<OOV>')
+    with open("model_cpt/label_encoder.pkl", "rb") as f:
+        label_encoder = pickle.load(f)
+
+
+    with open("model_cpt/tokenizer.pkl", "rb") as f:
+        tokenizer = pickle.load(f)
 
     predictor = SentimentPredictorONNX(
-        model_path="lstm_classifier.onnx",  
+        model_path="model_cpt/bilstm_classifier.onnx",  
         tokenizer=tokenizer,               
         label_encoder=label_encoder,        
         max_len=50                    

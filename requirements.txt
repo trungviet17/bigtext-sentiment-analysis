@@ -7,7 +7,6 @@ async-timeout==5.0.1
 attrs==24.2.0
 boto3==1.35.71
 botocore==1.35.71
-Bottleneck @ file:///croot/bottleneck_1731058641041/work
 certifi==2024.8.30
 charset-normalizer==3.4.0
 click==8.1.7
@@ -22,14 +21,10 @@ lightning==2.4.0
 lightning-utilities==0.11.9
 MarkupSafe==3.0.2
 mkl-service==2.4.0
-mkl_fft @ file:///io/mkl313/mkl_fft_1730824109137/work
-mkl_random @ file:///io/mkl313/mkl_random_1730823916628/work
 mpmath==1.3.0
 multidict==6.1.0
 networkx==3.4.2
 nltk==3.9.1
-numexpr @ file:///croot/numexpr_1730215937391/work
-numpy @ file:///croot/numpy_and_numpy_base_1708638617955/work/dist/numpy-1.26.4-cp310-cp310-linux_x86_64.whl#sha256=d8cd837ed43e87f77e6efaa08e8de927ca030a1c9c5d04624432d6fb9a74a5ee
 nvidia-cublas-cu12==12.4.5.8
 nvidia-cuda-cupti-cu12==12.4.127
 nvidia-cuda-nvrtc-cu12==12.4.127
@@ -43,21 +38,21 @@ nvidia-nccl-cu12==2.21.5
 nvidia-nvjitlink-cu12==12.4.127
 nvidia-nvtx-cu12==12.4.127
 packaging==24.2
-pandas @ file:///croot/pandas_1732735089971/work/dist/pandas-2.2.3-cp310-cp310-linux_x86_64.whl#sha256=3fa290e76efa7b7868273de6ab4ee4a73af177cdd88202834ad0eea6dd898d9e
+pandas 
 propcache==0.2.0
-py4j @ file:///croot/py4j_1690918206326/work
-pyarrow @ file:///croot/pyarrow_1721664224170/work/python
-pyspark @ file:///croot/pyspark_1732726087991/work
-python-dateutil @ file:///croot/python-dateutil_1716495738603/work
+py4j 
+pyarrow 
+pyspark 
+python-dateutil 
 pytorch-lightning==2.4.0
-pytz @ file:///croot/pytz_1713974312559/work
+pytz 
 PyYAML==6.0.2
 regex==2024.11.6
 requests==2.32.3
 s3transfer==0.10.4
 sacremoses==0.1.1
 sentencepiece==0.2.0
-six @ file:///tmp/build/80754af9/six_1644875935023/work
+six 
 sympy==1.13.1
 torch==2.5.1
 torchmetrics==1.6.0
@@ -65,6 +60,6 @@ tqdm==4.67.1
 transformers==2.3.0
 triton==3.1.0
 typing_extensions==4.12.2
-tzdata @ file:///croot/python-tzdata_1690578112552/work
+tzdata
 urllib3==2.2.3
 yarl==1.18.0

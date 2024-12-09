@@ -1,13 +1,15 @@
 from kafka import KafkaConsumer
 # from pymongo import MongoClient
 from json import loads
-from keras._tf_keras.keras.preprocessing.text import Tokenizer
-from sklearn.preprocessing import LabelEncoder
+import os
+import pickle
 from model.deepmodel.infer import SentimentPredictorONNX
+
 
 # client = MongoClient('localhost', 27017)
 # db = client['bigdata_project']
 # collection = db['tweets']
+
 
 topic = 'twitter'
 consumer = KafkaConsumer(
@@ -18,12 +20,17 @@ consumer = KafkaConsumer(
     group_id='my-group',
     value_deserializer=lambda x: loads(x.decode('utf-8')))
 
+project_root = os.path.dirname(os.path.abspath(__file__))
 
-label_encoder = LabelEncoder()
-tokenizer = Tokenizer(num_words=10000, oov_token="<OOV>")
-model_dir = os.path.join(curr_dir, "model", "deepmodel", "model")
+with open(project_root + "/model/deepmodel/model_cpt/label_encoder.pkl", "rb") as f:
+    label_encoder = pickle.load(f)
+with open(project_root + "/model/deepmodel/model_cpt/tokenizer.pkl", "rb") as f:
+    tokenizer = pickle.load(f)
 
-model_path = os.path.join(model_dir, "lstm_classifier.onnx")
+
+model_dir = os.path.join(project_root, "model", "deepmodel", "model")
+
+model_path = os.path.join(model_dir, "bilstm_classifier.onnx")
 predictor = SentimentPredictorONNX(
         model_path=model_path,
         tokenizer=tokenizer,
@@ -31,16 +38,20 @@ predictor = SentimentPredictorONNX(
         max_len=50,
     )
 
+    
+pred = predictor.predict("hello world")
+
 for message in consumer:
     text_input = message.value[-1]  # get the Text from the list
 
     if text_input.strip():
-        pred = predictor.predict(str(text_input))
+        pred = predictor.predict(text_input)
     else:
         pred = "Unknown"
     
     print("-> Comment:", text_input)
     print("-> Sentiment:", pred)
+    print("----------------------------------------------")
 
     # # Prepare document to insert into MongoDB
     # comment_doc = {

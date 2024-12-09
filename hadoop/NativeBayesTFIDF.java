@@ -35,6 +35,34 @@ public class NativeBayesTFIDF
     }
 
 
+    private static Set<String> stopWords;
+
+
+    static {
+        stopWords = new HashSet<>(Arrays.asList("the", "a", "and", "in", "to", "of", "for", "on", "with", "at", "by", "an", "be", "this", "that", "it", "is"));
+    }
+    private static String cleanText(String text) {
+        text = text.replaceAll("(?i)(https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|www\\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9]+\\.[^\\s]{2,}|www\\.[a-zA-Z0-9]+\\.[^\\s]{2,})", "")
+                .replaceAll("(#|@|&).*?\\w+", "")   // mentions, hashtags, special characters...
+                .replaceAll("\\d+", "")             // numbers...
+                .replaceAll("[^a-zA-Z ]", " ")      // punctuation...
+                .toLowerCase()                      // turn every character left to lowercase...
+                .trim()                             // trim the spaces before & after the whole string...
+                .replaceAll("\\s+", " ");
+
+        String[] words = text.split("\\s+");
+        StringBuilder cleanedText = new StringBuilder();
+
+        for (String word : words) {
+            if (!stopWords.contains(word)) {
+                cleanedText.append(word).append(" ");
+            }
+        }
+
+        return cleanedText.toString().trim();
+    }
+
+
 
     /* input:  <byte_offset, line_of_tweet>
      * output: <(word@tweet), 1>
@@ -67,14 +95,7 @@ public class NativeBayesTFIDF
                 tweet_id += '+';
 
             // clean the text of the tweet from links...
-            tweet_text = tweet_text.replaceAll("(?i)(https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|www\\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9]+\\.[^\\s]{2,}|www\\.[a-zA-Z0-9]+\\.[^\\s]{2,})", "")
-                    .replaceAll("(#|@|&).*?\\w+", "")   // mentions, hashtags, special characters...
-                    .replaceAll("\\d+", "")             // numbers...
-                    .replaceAll("[^a-zA-Z ]", " ")      // punctuation...
-                    .toLowerCase()                      // turn every character left to lowercase...
-                    .trim()                             // trim the spaces before & after the whole string...
-                    .replaceAll("\\s+", " ");           // and get rid of double spaces
-
+            tweet_text = cleanText(tweet_text)
 
             if(tweet_text != null && !tweet_text.trim().isEmpty())
             {
@@ -459,13 +480,7 @@ public class NativeBayesTFIDF
             String tweet_text = columns[3];
 
             // clean the text of the tweet from links..
-            tweet_text = tweet_text.replaceAll("(?i)(https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|www\\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9]+\\.[^\\s]{2,}|www\\.[a-zA-Z0-9]+\\.[^\\s]{2,})", "")
-                    .replaceAll("(#|@|&).*?\\w+", "")   // mentions, hashtags, special characters...
-                    .replaceAll("\\d+", "")             // numbers...
-                    .replaceAll("[^a-zA-Z ]", " ")      // punctuation...
-                    .toLowerCase()                      // turn every character left to lowercase...
-                    .trim()                             // trim the spaces before & after the whole string...
-                    .replaceAll("\\s+", " ");           // and get rid of double spaces
+            tweet_text = cleanText(tweet_text)
 
             // initialize the product of positive and negative probabilities with 1
             Double pos_probability = 1.0;
@@ -521,13 +536,13 @@ public class NativeBayesTFIDF
     {
         // paths to directories were input, inbetween and final job outputs are stored
         Path input_dir = new Path(args[0]);
+        Path testing_dir = new Path(args[1]);
         Path wordcount_dir = new Path("wordcount");
         Path tf_dir = new Path("tf");
         Path tfidf_dir = new Path("tfidf");
         Path features_dir = new Path("features");
-        Path training_dir = new Path("training");
-        Path testing_dir = new Path(args[1]);
-        Path output_dir = new Path("output");
+        Path training_dir = new Path(args[2]);
+        Path output_dir = new Path(args[3]);
 
         Configuration conf = new Configuration();
 
@@ -558,7 +573,7 @@ public class NativeBayesTFIDF
         wordcount_job.setOutputKeyClass(Text.class);
         wordcount_job.setOutputValueClass(IntWritable.class);
         TextInputFormat.addInputPath(wordcount_job, input_dir);
-        TextInputFormat.setMaxInputSplitSize(wordcount_job, Long.valueOf(args[2]));
+        // TextInputFormat.setMaxInputSplitSize(wordcount_job, Long.valueOf(args[2]));
         TextOutputFormat.setOutputPath(wordcount_job, wordcount_dir);
         wordcount_job.waitForCompletion(true);
 
@@ -640,7 +655,7 @@ public class NativeBayesTFIDF
         testing_job.setOutputKeyClass(Text.class);
         testing_job.setOutputValueClass(Text.class);
         TextInputFormat.addInputPath(testing_job, testing_dir);
-        TextInputFormat.setMaxInputSplitSize(testing_job, Long.valueOf(args[3]));
+        // TextInputFormat.setMaxInputSplitSize(testing_job, Long.valueOf(args[3]));
         TextOutputFormat.setOutputPath(testing_job, output_dir);
         testing_job.waitForCompletion(true);
 

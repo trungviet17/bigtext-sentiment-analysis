@@ -1,17 +1,17 @@
 from kafka import KafkaConsumer
-# from pymongo import MongoClient
 from json import loads
 import os
 import pickle
 from model.deepmodel.infer import SentimentPredictorONNX
-
-
-# client = MongoClient('localhost', 27017)
-# db = client['bigdata_project']
-# collection = db['tweets']
+from pyspark.sql import SparkSession
 
 
 topic = 'twitter'
+
+spark = SparkSession.builder \
+    .appName("classify tweets") \
+    .getOrCreate()
+
 consumer = KafkaConsumer(
     topic,
     bootstrap_servers=['localhost:9092'],
@@ -22,15 +22,15 @@ consumer = KafkaConsumer(
 
 project_root = os.path.dirname(os.path.abspath(__file__))
 
-with open(project_root + "/model/deepmodel/model_cpt/label_encoder.pkl", "rb") as f:
+with open("../model/deepmodel/model_cpt/label_encoder.pkl", "rb") as f:
     label_encoder = pickle.load(f)
-with open(project_root + "/model/deepmodel/model_cpt/tokenizer.pkl", "rb") as f:
+with open("../model/deepmodel/model_cpt/tokenizer.pkl", "rb") as f:
     tokenizer = pickle.load(f)
 
 
 model_dir = os.path.join(project_root, "model", "deepmodel", "model")
 
-model_path = os.path.join(model_dir, "bilstm_classifier.onnx")
+model_path = "../model/deepmodel/model_cpt/bilstm_classifier.onnx"
 predictor = SentimentPredictorONNX(
         model_path=model_path,
         tokenizer=tokenizer,
@@ -40,6 +40,7 @@ predictor = SentimentPredictorONNX(
 
     
 pred = predictor.predict("hello world")
+messages = []
 
 for message in consumer:
     text_input = message.value[-1]  # get the Text from the list
@@ -49,15 +50,14 @@ for message in consumer:
     else:
         pred = "Unknown"
     
-    print("-> Comment:", text_input)
-    print("-> Sentiment:", pred)
-    print("----------------------------------------------")
+    # print("-> Comment:", text_input)
+    # print("-> Sentiment:", pred)
+    # print("----------------------------------------------")
 
-    # # Prepare document to insert into MongoDB
-    # comment_doc = {
-    #     "comment": text_input,
-    #     "prediction": pred
-    # }
+    messages.append((text_input, pred))
 
-    # # Insert document into MongoDB collection
-    # collection.insert_one(comment_doc)
+    if len(messages) > 10: 
+        df = spark.createDataFrame(messages, ["tweet", "sentiment"])
+        df.show()
+
+        messages = []

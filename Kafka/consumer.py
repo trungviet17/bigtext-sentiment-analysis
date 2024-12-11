@@ -4,6 +4,15 @@ import os
 import pickle
 from model.deepmodel.infer import SentimentPredictorONNX
 from pyspark.sql import SparkSession
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+
+uri = ""
+
+# Create a new client and connect to the server
+client = MongoClient(uri, server_api=ServerApi('1'))
+db = client["bigdata_project"]
+collection = db['tweets']
 
 
 topic = 'twitter'
@@ -39,8 +48,6 @@ predictor = SentimentPredictorONNX(
     )
 
     
-pred = predictor.predict("hello world")
-messages = []
 
 for message in consumer:
     text_input = message.value[-1]  # get the Text from the list
@@ -49,15 +56,11 @@ for message in consumer:
         pred = predictor.predict(text_input)
     else:
         pred = "Unknown"
-    
-    # print("-> Comment:", text_input)
-    # print("-> Sentiment:", pred)
-    # print("----------------------------------------------")
 
-    messages.append((text_input, pred))
+    comment_doc = {
+        "comment": text_input,
+        "prediction": pred
+    }
 
-    if len(messages) > 10: 
-        df = spark.createDataFrame(messages, ["tweet", "sentiment"])
-        df.show()
-
-        messages = []
+    # Insert document into MongoDB collection
+    collection.insert_one(comment_doc)

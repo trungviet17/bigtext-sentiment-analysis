@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import os
 from model.deepmodel.infer import SentimentPredictorONNX
-from keras._tf_keras.keras.preprocessing.text import Tokenizer
-from sklearn.preprocessing import LabelEncoder
+import pickle
 
 
 curr_dir = os.path.dirname(os.path.abspath(__file__))
@@ -158,10 +157,16 @@ def result():
 
 def inference():
     st.title("Inference")
+    model_dir = os.path.join(curr_dir, "model", "deepmodel", "model_cpt")
 
-    label_encoder = LabelEncoder()
-    tokenizer = Tokenizer(num_words=10000, oov_token="<OOV>")
-    model_dir = os.path.join(curr_dir, "model", "deepmodel", "model")
+    label_encoder_dir = os.path.join(model_dir, "label_encoder.pkl")
+    with open(label_encoder_dir, "rb") as f:
+        label_encoder = pickle.load(f)
+    
+    tokenizer_dir = os.path.join(model_dir, "tokenizer.pkl")
+    with open(tokenizer_dir, "rb") as f:
+        tokenizer = pickle.load(f)
+
 
     lstms = {
         "BiLSTM": os.path.join(model_dir, "bilstm_classifier.onnx"),

@@ -72,7 +72,7 @@ python consumer_spark.py  # sử dụng thuật toán học máy dự đoán
 Để sử dụng giao diện streamlit thực hiện các dòng lệnh sau: 
 
 ```
-python app.py 
+streamlit run app.py 
 ```
 
 

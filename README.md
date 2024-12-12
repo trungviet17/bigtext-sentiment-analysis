@@ -19,7 +19,7 @@ Dự án được xây dựng dựa trên các thành phần như sau:
 
 3. **Spark Streaming** : các mô hình được huấn luyện trước đó được load và xử lý real time thông qua Spark 
 
-4. **MongoDB Altas** : Kết quả của mô hình lưu trữ thông qua MongoDB 
+4. **MongoDB Atlas** : Kết quả của mô hình lưu trữ thông qua MongoDB 
 5. **Streamlit** : Các kết quả đánh giá mô hình (accuracy, ..), giao diện tương tác trực tiếp với mô hình được biểu diễn thông qua module này. 
 
 
@@ -117,7 +117,16 @@ Kết quả của quá trình truyền dữ liệu và dự đoán thời gian t
   <img src="img/demo_kakfa.png" alt="Centered Image" width="900">
 </p>
 
+Dữ liệu được truyền vào Mongo Atlas như sau: 
+<p align="center">
+  <img src="466724066_928905305866033_3059923780351828711_n.png" alt="Centered Image" width="900">
+</p>
 
+Giao diện được thiết kế như sau: 
+
+<p align="center">
+  <img src="467014560_1116573329832742_6802468464192934484_n.png" alt="Centered Image" width="900">
+</p>
 
 
 

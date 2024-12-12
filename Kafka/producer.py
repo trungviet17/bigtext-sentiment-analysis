@@ -3,13 +3,17 @@ import csv
 from kafka import KafkaProducer
 import json
 import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 url = "https://tiktok-api23.p.rapidapi.com/api/post/comments"
 
 querystring = {"videoId":"7289041834003746056","count":"50","cursor":"0"}
 
 headers = {
-	"x-rapidapi-key": "b71ba4d679mshc84f69068042c6ep170194jsn74783a14e755",
+	"x-rapidapi-key": os.getenv('rapidapi'),
 	"x-rapidapi-host": "tiktok-api23.p.rapidapi.com"
 }
 

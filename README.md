@@ -7,7 +7,7 @@ Phân tích cảm xúc (Sentiment Analysis) là một bài toán nổi tiếng t
 ## Kiến trúc dự án 
 
 <p align="center">
-  <img src="img/model_pipeline.png" alt="Centered Image" width="500">
+  <img src="img/model_pipeline.png" alt="Centered Image" width="900">
 </p>
 
 Dự án được xây dựng dựa trên các thành phần như sau: 
@@ -86,7 +86,7 @@ Tiếp cận với bài toán này, chúng tôi thử nghiệm 3 hướng tiếp
 1. Sử dụng Naive Bayes thông qua thuật toán map reduce của hadoop. Tại đây, chúng tôi cài đặt 2 biến thể sử dụng wordcount (ảnh bên trái) và sử dụng thuật toán TF-IDF (ảnh bên phải). Kết quả huấn luyện như sau: 
 
 
-<p float="left">
+<p align="center">
   <img src="dashboard/nb_stopword.png"" width="45%" />
   <img src="dashboard/nb_tfidf.png"" width="45%" />
 </p>
@@ -96,7 +96,7 @@ Tiếp cận với bài toán này, chúng tôi thử nghiệm 3 hướng tiếp
 
 
 
-<p float="left">
+<p align="center">
   <img src="img/spark_logistic.png"" width="45%" />
   <img src="img/spark_naive.png"" width="45%" />
 </p>
@@ -106,7 +106,7 @@ Tiếp cận với bài toán này, chúng tôi thử nghiệm 3 hướng tiếp
 3. Chúng tôi cài đặt 3 biến thể của LSTM, kết quả của mô hình được lưu [tại](https://wandb.ai/trungviet17/Big%20Sentiment%20Analysis/reports/LSTM-Sentiment-report---VmlldzoxMDU1Mzk5MA) và có một số kết quả như sau: 
 
 <p align="center">
-  <img src="img/lstm.png" alt="Centered Image" width="500">
+  <img src="img/lstm.png" alt="Centered Image" width="900">
 </p>
 
 
@@ -114,7 +114,7 @@ Tiếp cận với bài toán này, chúng tôi thử nghiệm 3 hướng tiếp
 Kết quả của quá trình truyền dữ liệu và dự đoán thời gian thực như sau: 
 
 <p align="center">
-  <img src="img/demo_kakfa.png" alt="Centered Image" width="500">
+  <img src="img/demo_kakfa.png" alt="Centered Image" width="900">
 </p>
 
 

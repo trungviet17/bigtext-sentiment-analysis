@@ -87,11 +87,11 @@ Tiếp cận với bài toán này, chúng tôi thử nghiệm 3 hướng tiếp
 
 <div style="display: flex; justify-content: center; align-items: center; gap: 50px;">
   <div style="text-align: center;">
-    <img src="dashboard/nb_stopword.png" alt="Left Image" width="500">
+    <img src="dashboard/nb_stopword.png" alt="Left Image" width="200">
     <p>Kết quả Naive Bayes sử dụng stopword</p>
   </div>
   <div style="text-align: center;">
-    <img src="dashboard/nb_tfidf.png" alt="Right Image" width="500">
+    <img src="dashboard/nb_tfidf.png" alt="Right Image" width="200">
     <p>Kết quả Naive Bayes sử dụng TF-IDF</p>
   </div>
 </div>
@@ -101,11 +101,11 @@ Tiếp cận với bài toán này, chúng tôi thử nghiệm 3 hướng tiếp
 
 <div style="display: flex; justify-content: center; align-items: center; gap: 50px;">
   <div style="text-align: center;">
-    <img src="img/spark_logistic.png" alt="Left Image" width="500">
+    <img src="img/spark_logistic.png" alt="Left Image" width="200">
     <p>Kết quả của Logistic Regression</p>
   </div>
   <div style="text-align: center;">
-    <img src="img/spark_naive.png" alt="Right Image" width="500">
+    <img src="img/spark_naive.png" alt="Right Image" width="200">
     <p>Kết quả Naive Bayes </p>
   </div>
 </div>

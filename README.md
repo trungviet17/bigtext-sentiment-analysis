@@ -83,32 +83,25 @@ Chúng tôi sử dụng bộ dữ liệu được công khai trên [Kaggle](http
 
 Tiếp cận với bài toán này, chúng tôi thử nghiệm 3 hướng tiếp cận như sau ([chi tiết tại báo cáo](/Report_Big_Data.pdf)): 
 
-1. Sử dụng Naive Bayes thông qua thuật toán map reduce của hadoop. Tại đây, chúng tôi cài đặt 2 biến thể sử dụng wordcount và sử dụng thuật toán TF-IDF. Kết quả huấn luyện như sau: 
+1. Sử dụng Naive Bayes thông qua thuật toán map reduce của hadoop. Tại đây, chúng tôi cài đặt 2 biến thể sử dụng wordcount (ảnh bên trái) và sử dụng thuật toán TF-IDF (ảnh bên phải). Kết quả huấn luyện như sau: 
 
-<div style="display: flex; justify-content: center; align-items: center; gap: 50px;">
-  <div style="text-align: center;">
-    <img src="dashboard/nb_stopword.png" alt="Left Image" width="200">
-    <p>Kết quả Naive Bayes sử dụng stopword</p>
-  </div>
-  <div style="text-align: center;">
-    <img src="dashboard/nb_tfidf.png" alt="Right Image" width="200">
-    <p>Kết quả Naive Bayes sử dụng TF-IDF</p>
-  </div>
-</div>
+
+<p float="left">
+  <img src="dashboard/nb_stopword.png"" width="45%" />
+  <img src="dashboard/nb_tfidf.png"" width="45%" />
+</p>
 
 
 2. Chúng tôi sử dụng thuật toán Logistic Regression và Naive Bayes thông qua Mllib có kết quả như sau: 
 
-<div style="display: flex; justify-content: center; align-items: center; gap: 50px;">
-  <div style="text-align: center;">
-    <img src="img/spark_logistic.png" alt="Left Image" width="200">
-    <p>Kết quả của Logistic Regression</p>
-  </div>
-  <div style="text-align: center;">
-    <img src="img/spark_naive.png" alt="Right Image" width="200">
-    <p>Kết quả Naive Bayes </p>
-  </div>
-</div>
+
+
+<p float="left">
+  <img src="img/spark_logistic.png"" width="45%" />
+  <img src="img/spark_naive.png"" width="45%" />
+</p>
+
+
 
 3. Chúng tôi cài đặt 3 biến thể của LSTM, kết quả của mô hình được lưu [tại](https://wandb.ai/trungviet17/Big%20Sentiment%20Analysis/reports/LSTM-Sentiment-report---VmlldzoxMDU1Mzk5MA) và có một số kết quả như sau: 
 

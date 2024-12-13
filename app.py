@@ -44,7 +44,8 @@ def result():
         "Naive Bayes": os.path.join(curr_dir, 'dashboard', 'naive_bayes.png'),
         "Naive Bayes with stop word": os.path.join(curr_dir, 'dashboard', 'nb_stopword.png'),
         "Naive Bayes with TFIDF": os.path.join(curr_dir, 'dashboard', 'nb_tfidf.png'),
-        "LSTM": os.path.join(curr_dir, 'dashboard', 'lstm')
+        "LSTM": os.path.join(curr_dir, 'dashboard', 'lstm'),
+        'LR': os.path.join(curr_dir,'dashboard','output.png')
     }
 
     selected = st.selectbox("Select a Model", list(models.keys()))

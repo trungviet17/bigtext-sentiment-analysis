@@ -8,14 +8,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-url = "https://tiktok-api23.p.rapidapi.com/api/post/comments"
+# url = "https://tiktok-api23.p.rapidapi.com/api/post/comments"
 
-querystring = {"videoId":"7289041834003746056","count":"50","cursor":"0"}
+# querystring = {"videoId":"7289041834003746056","count":"50","cursor":"0"}
 
-headers = {
-	"x-rapidapi-key": os.getenv('rapidapi'),
-	"x-rapidapi-host": "tiktok-api23.p.rapidapi.com"
-}
+# headers = {
+# 	"x-rapidapi-key": os.getenv('rapidapi'),
+# 	"x-rapidapi-host": "tiktok-api23.p.rapidapi.com"
+# }
 
 
 
@@ -24,18 +24,18 @@ producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
                          value_serializer=lambda x: 
                          json.dumps(x).encode('utf-8'))
 
-response = requests.get(url, headers=headers, params=querystring)
-response = response.json()['comments']
-data = [comment['text'] for comment in response]
-producer.send(topic, value=data)
+# response = requests.get(url, headers=headers, params=querystring)
+# response = response.json()['comments']
+# data = [comment['text'] for comment in response]
+# producer.send(topic, value=data)
 
-for text in data: 
-    producer.send(topic, value=text)
-    sleep(3)
+# for text in data: 
+#     producer.send(topic, value=text)
+#     sleep(3)
 
-# with open('twitter_validation.csv') as file_obj:
-#     reader_obj = csv.reader(file_obj)
-#     for data in reader_obj: 
-#         # print(data)
-#         producer.send(topic, value=data)
-#         sleep(3)
+with open('twitter_validation.csv') as file_obj:
+    reader_obj = csv.reader(file_obj)
+    for data in reader_obj: 
+        # print(data)
+        producer.send(topic, value=data)
+        sleep(3)
